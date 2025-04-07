@@ -11,7 +11,7 @@ export default function ProjectsLayout({
     <SidebarProvider>
       <AppSidebar />
       <main>
-        <SidebarTrigger />
+        <SidebarTrigger className='fixed z-10' />
 
         <ReactFlowProvider>{children}</ReactFlowProvider>
       </main>
