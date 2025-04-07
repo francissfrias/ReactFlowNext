@@ -6,7 +6,9 @@ const db = await connectToDatabase();
 
 interface ProjectModelSchema {
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   node: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   defaultNode: any[];
   createdBy?: string | undefined;
   dateCreated?: Date | undefined;

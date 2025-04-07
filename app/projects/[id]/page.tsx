@@ -40,7 +40,7 @@ const ProjectViewPage = () => {
       >
         <Controls />
         <MiniMap />
-        <Background variant='dots' gap={12} size={1} />
+        <Background gap={12} size={1} />
       </ReactFlow>
       <div className='absolute bottom-0  right-0 z-10 flex flex-row gap-2 p-4'>
         <Button
