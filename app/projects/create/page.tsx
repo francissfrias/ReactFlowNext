@@ -45,6 +45,7 @@ const ProjectCreatePage = () => {
       }
 
       router.refresh();
+      router.push('/projects');
 
       form.reset();
     } catch (e) {
