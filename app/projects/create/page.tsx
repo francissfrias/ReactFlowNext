@@ -44,13 +44,14 @@ const ProjectCreatePage = () => {
         throw errorData;
       }
 
-      router.refresh();
+      await router.refresh();
       router.push('/projects');
 
       form.reset();
     } catch (e) {
       console.log(e);
     } finally {
+      await router.refresh();
       setLoading(false);
     }
   };
