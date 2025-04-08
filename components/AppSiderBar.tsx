@@ -27,16 +27,20 @@ const items = [
   },
 ];
 
-export async function AppSidebar() {
+export async function getProjects() {
   const getAllProjects = await Project.find({}).lean().exec();
 
-  const projects = getAllProjects.map((project) => {
+  return getAllProjects.map((project) => {
     return {
       title: project.title,
       url: `/projects/${project._id}`,
       icon: CheckCircle,
     };
   });
+}
+
+export async function AppSidebar() {
+  const projects = await getProjects();
 
   return (
     <Sidebar>

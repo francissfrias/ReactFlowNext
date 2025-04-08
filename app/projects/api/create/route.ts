@@ -1,6 +1,6 @@
 import { Project } from '@/lib/model/Project';
 import { createProject } from '@/lib/schema/ProjectSchema';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
@@ -28,6 +28,7 @@ const POST = async (req: NextRequest) => {
 
     revalidatePath('/projects/create');
     revalidatePath('/projects', 'layout');
+    revalidateTag('projects');
 
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
