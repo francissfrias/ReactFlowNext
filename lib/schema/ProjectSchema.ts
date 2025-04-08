@@ -32,7 +32,7 @@ export const updateProject = createProject.partial().omit({
 export type UpdateProjectSchema = z.infer<typeof updateProject>;
 
 export const initialValues: CreateProjectSchema = {
-  title: 'Untitled Project',
+  title: '',
   node: [
     {
       id: '1',
