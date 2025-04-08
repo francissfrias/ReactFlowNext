@@ -8,13 +8,14 @@ export default function ProjectsLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main>
-        <SidebarTrigger className='fixed z-10' />
-
-        <ReactFlowProvider>{children}</ReactFlowProvider>
-      </main>
-    </SidebarProvider>
+    <>
+      <SidebarProvider>
+        <AppSidebar />
+        <main className='flex h-screen w-screen flex-col overflow-hidden'>
+          <SidebarTrigger className='fixed z-40' />
+          <ReactFlowProvider>{children}</ReactFlowProvider>
+        </main>
+      </SidebarProvider>
+    </>
   );
 }

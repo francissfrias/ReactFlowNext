@@ -10,13 +10,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { Project } from '@/lib/model/Project';
 import Link from 'next/link';
 
 // Menu items.
 const items = [
   {
     title: 'Home',
-    url: '/',
+    url: '/projects',
     icon: Home,
   },
   {
@@ -26,30 +27,17 @@ const items = [
   },
 ];
 
-const projects = [
-  {
-    title: 'Project 1',
-    url: '/projects/1',
-    icon: CheckCircle,
-  },
-  {
-    title: 'Project 2',
-    url: '/projects/2',
-    icon: CheckCircle,
-  },
-  {
-    title: 'Project 3',
-    url: '/projects/3',
-    icon: CheckCircle,
-  },
-  {
-    title: 'Project 4',
-    url: '/projects/4',
-    icon: CheckCircle,
-  },
-];
+export async function AppSidebar() {
+  const getAllProjects = await Project.find({}).lean().exec();
 
-export function AppSidebar() {
+  const projects = getAllProjects.map((project) => {
+    return {
+      title: project.title,
+      url: `/projects/${project._id}`,
+      icon: CheckCircle,
+    };
+  });
+
   return (
     <Sidebar>
       <SidebarContent>
