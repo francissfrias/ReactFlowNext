@@ -36,6 +36,7 @@ const ProjectCreatePage = () => {
       const response = await fetch('/projects/api/create', {
         method: 'POST',
         body: JSON.stringify(data),
+        next: { revalidate: 0 },
       });
 
       if (!response.ok) {
@@ -44,12 +45,13 @@ const ProjectCreatePage = () => {
         throw errorData;
       }
 
-      await router.refresh();
-
       form.reset();
+      router.refresh();
     } catch (e) {
       console.log(e);
     } finally {
+      router.refresh();
+
       setLoading(false);
     }
   };
