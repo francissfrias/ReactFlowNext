@@ -27,6 +27,7 @@ const POST = async (req: NextRequest) => {
     const result = await Project.create(validateSku);
 
     revalidatePath('/projects/create');
+    revalidatePath('/projects', 'layout');
 
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
