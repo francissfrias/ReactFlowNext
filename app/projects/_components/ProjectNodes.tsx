@@ -18,6 +18,58 @@ const initialNodes = [
 ];
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
+const services = [
+  {
+    serviceId: 1,
+    name: 'Content Acquisition',
+    required: true,
+    options: {
+      previous: null,
+      source: {
+        type: 'file',
+        optionTypes: [
+          'file',
+          'url',
+        ],
+        token: null,
+        script: null
+      }
+    }
+  },
+  {
+    serviceId: 2,
+    name: 'Inventory',
+    required: false,
+    options: {
+      previous: 1,
+    }
+  },
+  {
+    serviceId: 3,
+    name: 'Qualification',
+    required: false,
+    options: {
+      previous: null,
+    }
+  },
+  {
+    serviceId: 4,
+    name: 'Data Transformation',
+    required: false,
+    options: {
+      previous: null,
+    }
+  },
+  {
+    serviceId: 5,
+    name: 'Data Transmission',
+    required: false,
+    options: {
+      previous: null,
+    }
+  },
+]
+
 const ProjectNodes = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -26,40 +78,54 @@ const ProjectNodes = () => {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
-
+  const addEdgeToInitialEdges = useCallback(
+    (edge: typeof initialEdges[number]) => setEdges((eds) => [...eds, edge]),
+    [setEdges]
+  );
   return (
     <div className='h-screen w-screen'>
       <div className="flex p-4 h-full w-full">
-        <div className="p-4  w-1/5 rounded-xl justify-items-center ">
+        <div className="p-4 w-1/5 rounded-xl justify-items-center ">
           <div className="grid grid-rows-5 gap-4 w-full">
             <div className="row-start-1 justify-center w-full text-center"><h1 className='font-bold'>Services</h1></div>
-            <div className="row-start-2 justify-center w-full">
+            {services.map((service, index) => (
+              <div key={service.serviceId} className={'row-start-'+index+1+' justify-center w-full'}>
+                <Button
+                  className='bg-white text-black cursor-pointer hover:bg-slate-100 w-full'
+                  onClick={() =>
+                    setNodes((nds) => {
+                      const newId = (nds.length + 1).toString();
+                      if(newId != '1'){
+                        const latestId = nds.length
+                        addEdgeToInitialEdges({ id: `e${(latestId).toString()}-${newId}'`, source: latestId.toString(), target: newId })
+                      }
+                      console.log(110 + (120 * (nds.length)))
+                      return [
+                        ...nds,
+                        {
+                          id: newId,
+                          data: { label: service.name },
+                          position: { x: 110 + (120 * (nds.length)), y: 0  },
+                        },
+                      ];
+                    })
+                    
+                  }
+                >
+                  {service.name}
+                </Button>
+              </div>
+            ))}
+
+
+           {/*  <div className="row-start-3 justify-center w-full">
               <Button
                 className='bg-white text-black cursor-pointer hover:bg-slate-100 w-full'
                 onClick={() =>
                   setNodes((nds) => {
-                    console.log('nds', nds);
-                    const newId = (nds.length + 1).toString();
-                    return [
-                      ...nds,
-                      {
-                        id: newId,
-                        data: { label: 'Content Acquisition' },
-                        position: { x: 0, y: 200 },
-                      },
-                    ];
-                  })
-                }
-              >
-                Content Acquisition
-              </Button>
-            </div>
-            <div className="row-start-3 justify-center w-full">
-              <Button
-                className='bg-white text-black cursor-pointer hover:bg-slate-100 w-full'
-                onClick={() =>
-                  setNodes((nds) => {
-                    const newId = (nds.length + 1).toString();
+                    const latestId = nds.length
+                    const newId = (latestId + 1).toString();
+                    addEdgeToInitialEdges({ id: `e${(latestId).toString()}-${newId}'`, source: latestId.toString(), target: newId })
                     return [
                       ...nds,
                       {
@@ -79,7 +145,9 @@ const ProjectNodes = () => {
                 className='bg-white text-black cursor-pointer hover:bg-slate-100 w-full'
                 onClick={() =>
                   setNodes((nds) => {
-                    const newId = (nds.length + 1).toString();
+                    const latestId = nds.length
+                    const newId = (latestId + 1).toString();
+                    addEdgeToInitialEdges({ id: `e${(latestId).toString()}-${newId}'`, source: latestId.toString(), target: newId })
                     return [
                       ...nds,
                       {
@@ -99,7 +167,9 @@ const ProjectNodes = () => {
                 className='bg-white text-black cursor-pointer hover:bg-slate-100 w-full'
                 onClick={() =>
                   setNodes((nds) => {
-                    const newId = (nds.length + 1).toString();
+                    const latestId = nds.length
+                    const newId = (latestId + 1).toString();
+                    addEdgeToInitialEdges({ id: `e${(latestId).toString()}-${newId}'`, source: latestId.toString(), target: newId })
                     return [
                       ...nds,
                       {
@@ -113,7 +183,7 @@ const ProjectNodes = () => {
               >
                 QA
               </Button>
-            </div>
+            </div> */}
           </div>
 
         </div>
