@@ -33,6 +33,8 @@ const POST = async (req: NextRequest) => {
     revalidatePath('/projects', 'page');
     revalidatePath('/projects/create', 'page');
     revalidateTag('projects');
+    revalidatePath('/projects/create', 'layout');
+    revalidateTag('/projects/create');
 
     // Add cache-control headers to prevent caching
     const response = NextResponse.json(result, { status: 201 });

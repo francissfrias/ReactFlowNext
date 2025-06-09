@@ -17,10 +17,12 @@ import {
 } from '@/lib/schema/ProjectSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const ProjectCreatePage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const form = useForm({
     mode: 'onChange',
@@ -46,6 +48,7 @@ const ProjectCreatePage = () => {
       }
       await response.json();
       form.reset();
+      router.refresh();
     } catch (e) {
       console.log(e);
     } finally {
