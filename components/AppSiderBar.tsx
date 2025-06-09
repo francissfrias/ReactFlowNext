@@ -1,5 +1,6 @@
-import { CheckCircle, Home, Plus } from 'lucide-react';
+import { Home, Plus } from 'lucide-react';
 
+import { Items } from '@/app/projects/layout';
 import {
   Sidebar,
   SidebarContent,
@@ -10,11 +11,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Project } from '@/lib/model/Project';
 import Link from 'next/link';
 
 // Menu items.
-const items = [
+const defaultItems: Items[] = [
   {
     title: 'Home',
     url: '/projects',
@@ -27,20 +27,10 @@ const items = [
   },
 ];
 
-export async function getProjects() {
-  const getAllProjects = await Project.find({}).lean().exec();
-
-  return getAllProjects.map((project) => {
-    return {
-      title: project.title,
-      url: `/projects/${project._id}`,
-      icon: CheckCircle,
-    };
-  });
-}
-
-export async function AppSidebar() {
-  const projects = await getProjects();
+export async function AppSidebar({ items }: { items?: Items[] }) {
+  if (!items || items.length === 0) {
+    items = [];
+  }
 
   return (
     <Sidebar>
@@ -50,7 +40,7 @@ export async function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <div className='flex flex-col gap-2'>
-                {items.map((item) => (
+                {defaultItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <Link href={item.url} prefetch>
@@ -63,8 +53,8 @@ export async function AppSidebar() {
               </div>
               <div className='border-t border-gray-200 my-2' />
               <div className='flex flex-col gap-2'>
-                {projects.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title + Math.random()}>
                     <SidebarMenuButton asChild>
                       <Link href={item.url} prefetch>
                         <item.icon />
