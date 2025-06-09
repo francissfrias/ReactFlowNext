@@ -1,6 +1,6 @@
 import { Project } from '@/lib/model/Project';
 import { createProject } from '@/lib/schema/ProjectSchema';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
@@ -28,23 +28,9 @@ const POST = async (req: NextRequest) => {
     }
     const result = await Project.create(validateSku);
 
-    // Force revalidation of all project-related paths
-    revalidatePath('/projects', 'layout');
-    revalidatePath('/projects', 'page');
-    revalidatePath('/projects/create', 'page');
-    revalidateTag('projects');
     revalidatePath('/projects/create', 'layout');
-    revalidateTag('/projects/create');
 
-    // Add cache-control headers to prevent caching
     const response = NextResponse.json(result, { status: 201 });
-    response.headers.set(
-      'Cache-Control',
-      'no-cache, no-store, must-revalidate'
-    );
-    response.headers.set('Pragma', 'no-cache');
-    response.headers.set('Expires', '0');
-
     return response;
   } catch (error) {
     console.log(error);

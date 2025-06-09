@@ -33,9 +33,6 @@ export default async function ProjectsLayout({
       icon: CheckCircle,
     };
   });
-  console.log('AppSidebar layout itemms:', items);
-
-  console.log('refreshing projects layout');
   return (
     <>
       <SidebarProvider>

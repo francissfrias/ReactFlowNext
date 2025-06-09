@@ -32,7 +32,6 @@ export function AppSidebar({ items }: { items?: Items[] }) {
     items = [];
   }
 
-  console.log('AppSidebar items:', items);
   return (
     <Sidebar>
       <SidebarContent>
