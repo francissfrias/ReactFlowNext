@@ -17,26 +17,26 @@ import {
 } from '@/lib/schema/ProjectSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const ProjectCreatePage = () => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const form = useForm({
     mode: 'onChange',
     defaultValues: initialValues,
     resolver: zodResolver(createProject),
   });
-
   const onSubmit = async (data: CreateProjectSchema) => {
     setLoading(true);
     try {
       const response = await fetch('/projects/api/create', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+        },
         body: JSON.stringify(data),
-        next: { revalidate: 0 },
       });
 
       if (!response.ok) {
@@ -44,14 +44,11 @@ const ProjectCreatePage = () => {
         console.log(errorData);
         throw errorData;
       }
-
+      await response.json();
       form.reset();
-      router.refresh();
     } catch (e) {
       console.log(e);
     } finally {
-      router.refresh();
-
       setLoading(false);
     }
   };

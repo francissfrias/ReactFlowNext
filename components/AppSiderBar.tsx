@@ -27,7 +27,7 @@ const defaultItems: Items[] = [
   },
 ];
 
-export async function AppSidebar({ items }: { items?: Items[] }) {
+export function AppSidebar({ items }: { items?: Items[] }) {
   if (!items || items.length === 0) {
     items = [];
   }
@@ -51,12 +51,12 @@ export async function AppSidebar({ items }: { items?: Items[] }) {
                   </SidebarMenuItem>
                 ))}
               </div>
-              <div className='border-t border-gray-200 my-2' />
+              <div className='border-t border-gray-200 my-2' />{' '}
               <div className='flex flex-col gap-2'>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title + Math.random()}>
+                {items.map((item, index) => (
+                  <SidebarMenuItem key={`${item.title}-${index}`}>
                     <SidebarMenuButton asChild>
-                      <Link href={item.url} prefetch>
+                      <Link href={item.url} prefetch={false}>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>

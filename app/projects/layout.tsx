@@ -5,6 +5,7 @@ import { ReactFlowProvider } from '@xyflow/react';
 import { CheckCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export interface Items {
   title: string;
@@ -17,7 +18,13 @@ export default async function ProjectsLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const getAllProjects = await Project.find({}).lean().exec();
+  let getAllProjects;
+  try {
+    getAllProjects = await Project.find({}).lean().exec();
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    getAllProjects = [];
+  }
 
   const items: Items[] = getAllProjects.map((project) => {
     return {
@@ -26,7 +33,6 @@ export default async function ProjectsLayout({
       icon: CheckCircle,
     };
   });
-
   return (
     <>
       <SidebarProvider>
